@@ -1,8 +1,138 @@
+import axios from "axios";
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+/*
+  List of LS Instructors Github username's:
+    tetondan
+    dustinmyers
+    justsml
+    luishrd
+    bigknell
+*/
+
+const followersArray = [
+  'ezra-casas',
+  'dustinmyers',
+  'tetondan',
+  'luishrd',
+  'bigknell'
+];
+
+followersArray.forEach(user => {
+  getInfo(user)
+});
+
+function getInfo(username){
+  axios.get(`https://api.github.com/users/${username}`)
+    .then(response => {
+      
+      console.log(userCard)
+      console.log(response.data)
+      console.log(document.querySelector('.cards'))
+      const userCard = createCard(response.data)
+      document.querySelector('.cards').appendChild(userCard)
+    })
+    .catch(error => {
+      console.error(error);
+    })
+    .finally(() => {
+      console.log('Finished');
+    })
+}
+
+function createCard(user){
+
+  function makeElement(element){
+    return document.createElement(element)
+  }
+  
+  // Create tags:
+  const card = makeElement('div');
+  const image = makeElement('img');
+  const cardInfo = makeElement('div');
+  const name = makeElement('h3');
+  const username = makeElement('p');
+  const location = makeElement('p');
+  const profile = makeElement('p');
+  const link = makeElement('a');
+  const followers = makeElement('p');
+  const following = makeElement('p');
+  const bio = makeElement('p');
+
+  // const card = document.createElement('div');
+  // const image = document.createElement('img');
+  // const cardInfo = document.createElement('div');
+  // const name = document.createElement('h3');
+  // const username = document.createElement('p')
+  // const location = document.createElement('p')
+  // const profile = document.createElement('p')
+  // const link = document.createElement('a');
+  // const followers = document.createElement('p');
+  // const following = document.createElement('p');
+  // const bio = document.createElement('p');
+  
+  //set textContent
+  image.src = user.avatar_url;
+  name.textContent = (user.name);
+  username.textContent = (user.login);
+  location.textContent = (`Location ${user.location}`);
+  profile.textContent = 'Profile: ';
+  followers.textContent = (`Followers: ${user.followers}`);
+  following.textContent = (`Following: ${user.following}`);
+  bio.textContent = (`Bio: ${user.bio}`);
+  
+
+  // Appending:
+  card.appendChild(image);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(username);
+  profile.appendChild(link);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+  // Set classes
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  username.classList.add('username');
+
+
+  // ...?
+  const anchor = card.querySelector('.card-info p:nth-child(4)').appendChild(document.createElement('a'))
+  anchor.textContent = 'Link to profile'
+  anchor.setAttribute('href', user.html_url);
+
+  console.log(card)
+  return card
+
+  // 
+  /*
+  STEP 3: Create a function that accepts a single object as its only argument.
+    Using DOM methods and properties, create and return the following markup:
+
+    <div class="card">
+      <img src={image url of user} />
+      <div class="card-info">
+        <h3 class="name">{users name}</h3>
+        <p class="username">{users user name}</p>
+        <p>Location: {users location}</p>
+        <p>Profile:
+          <a href={address to users github page}>{address to users github page}</a>
+        </p>
+        <p>Followers: {users followers count}</p>
+        <p>Following: {users following count}</p>
+        <p>Bio: {users bio}</p>
+      </div>
+    </div>
+*/
+}
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,27 +158,6 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
-/*
-  STEP 3: Create a function that accepts a single object as its only argument.
-    Using DOM methods and properties, create and return the following markup:
-
-    <div class="card">
-      <img src={image url of user} />
-      <div class="card-info">
-        <h3 class="name">{users name}</h3>
-        <p class="username">{users user name}</p>
-        <p>Location: {users location}</p>
-        <p>Profile:
-          <a href={address to users github page}>{address to users github page}</a>
-        </p>
-        <p>Followers: {users followers count}</p>
-        <p>Following: {users following count}</p>
-        <p>Bio: {users bio}</p>
-      </div>
-    </div>
-*/
 
 /*
   List of LS Instructors Github username's:
